@@ -12,10 +12,13 @@ from apps.expenses.serializers import ExpenseSerializer
 from apps.expenses.models import Expense
 from rest_framework.viewsets import ModelViewSet
 
+from settings.pagination import ExpenseLimitOffsetPagination
+
 
 class ExpensesViewSet(ModelViewSet):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+    pagination_class = ExpenseLimitOffsetPagination
 
 
 class ExpensesDateRangeApiView(ListAPIView):
@@ -23,6 +26,7 @@ class ExpensesDateRangeApiView(ListAPIView):
     serializer_class = ExpenseSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ExpenseDateRangeFilter
+    pagination_class = ExpenseLimitOffsetPagination
 
     def get_queryset(self) -> QuerySet:
         queryset = super().get_queryset()
